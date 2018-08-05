@@ -1,6 +1,19 @@
-<ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Users" tabIcon="contacts"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Matkul" tabIcon="book"></ion-tab>
-  <ion-tab [root]="tab4Root" tabTitle="Profile" tabIcon="contact"></ion-tab>
-</ion-tabs>
+<ng-container *ngIf="auth.user | async as user">
+  <ion-tabs *ngIf="user.level == 'dosen'">
+    <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
+    <ion-tab [root]="tab3Root" tabTitle="Matkul" tabIcon="book"></ion-tab>
+    <ion-tab [root]="tab4Root" tabTitle="Profile" tabIcon="contact"></ion-tab>
+  </ion-tabs>
+  <ion-tabs *ngIf="user.level == 'mahasiswa'">
+    <ion-tab [root]="tab5Root" tabTitle="Home" tabIcon="home"></ion-tab>
+    <ion-tab [root]="tab6Root" tabTitle="Dosen" tabIcon="contacts"></ion-tab>
+    <ion-tab [root]="tab7Root" tabTitle="Matkul" tabIcon="book"></ion-tab>
+    <ion-tab [root]="tab8Root" tabTitle="Profile" tabIcon="contact"></ion-tab>
+  </ion-tabs>
+  <ion-tabs *ngIf="user.level == 'admin'">
+    <ion-tab [root]="tab9Root" tabTitle="Home" tabIcon="home"></ion-tab>
+    <ion-tab [root]="tab10Root" tabTitle="Users" tabIcon="contacts"></ion-tab>
+    <ion-tab [root]="tab11Root" tabTitle="Profile" tabIcon="contact"></ion-tab>
+    <!-- tambah token -->
+  </ion-tabs>
+</ng-container>

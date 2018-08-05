@@ -43,8 +43,46 @@ export class AuthProvider {
     );
   }
 
-  //// FACEBOOK ////
+  //// FACEBOOK MAHASISWA ////
 
+  async facebookMhsLogin() {
+    if (this.platform.is("cordova")) {
+      return await this.nativeMhsFacebookLogin();
+    } else {
+      return await this.webMhsFacebookLogin();
+    }
+  }
+
+  async nativeMhsFacebookLogin(): Promise<void> {
+    try {
+      const response = await this.facebook.login(["email", "public_profile"]);
+      const facebookCredential = firebase.auth.FacebookAuthProvider.credential(
+        response.authResponse.accessToken
+      );
+
+      const firebaseUser = await firebase
+        .auth()
+        .signInWithCredential(facebookCredential);
+
+      return await this.updateMhsData(firebaseUser);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async webMhsFacebookLogin(): Promise<void> {
+    try {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      const credential = await this.afAuth.auth.signInWithPopup(provider);
+
+      return await this.updateMhsData(credential.user);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+  // Dosen
   async facebookLogin() {
     if (this.platform.is("cordova")) {
       return await this.nativeFacebookLogin();
@@ -64,7 +102,7 @@ export class AuthProvider {
         .auth()
         .signInWithCredential(facebookCredential);
 
-      return await this.updateUserData(firebaseUser);
+      return await this.updateDosenData(firebaseUser);
     } catch (err) {
       console.log(err);
     }
@@ -75,14 +113,15 @@ export class AuthProvider {
       const provider = new firebase.auth.FacebookAuthProvider();
       const credential = await this.afAuth.auth.signInWithPopup(provider);
 
-      return await this.updateUserData(credential.user);
+      return await this.updateDosenData(credential.user);
     } catch (err) {
       console.log(err);
     }
   }
 
+  // Dosen //
   // Save custom user data in Firestore
-  private updateUserData(user: any) {
+  private updateDosenData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
@@ -90,18 +129,30 @@ export class AuthProvider {
     const data = {
       uid: user.uid,
       email: user.email || null,
+      level: 'dosen',
       displayName: user.displayName || new Chance().name({ prefix: true }),
       photoURL: user.photoURL || "https://goo.gl/7kz9qG"
     };
     return userRef.set(data, { merge: true });
   }
 
-  //// ANONYMOUS ////
+  // Mahasiswa //
+  // Save custom user data in Firestore
+  private updateMhsData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
 
-  async anonymousLogin(): Promise<void> {
-    const user = await this.afAuth.auth.signInAnonymously();
-    await this.updateUserData(user);
+    const data = {
+      uid: user.uid,
+      email: user.email || null,
+      level: 'mahasiswa',
+      displayName: user.displayName || new Chance().name({ prefix: true }),
+      photoURL: user.photoURL || "https://goo.gl/7kz9qG"
+    };
+    return userRef.set(data, { merge: true });
   }
+
 
   //// HELPERS ////
 

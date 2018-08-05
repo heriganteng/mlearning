@@ -29,5 +29,9 @@ export class ProfilePage {
   openEditPage() {
     this.navCtrl.push('ProfileEditPage')
   }
-
+  openNilaiPage(user){
+    this.navCtrl.push('DaftarNilaiPage', {
+      userId: user.uid
+    });
+  }
 }

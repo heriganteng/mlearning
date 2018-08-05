@@ -15,14 +15,11 @@ import { TabsPage } from '../../pages/tabs/tabs';
 })
 export class FacebookLoginComponent {
 
-  text: string;
-
   constructor(public auth: AuthProvider, public navCtrl: NavController) {
     console.log('Hello FacebookLoginComponent Component');
-    this.text = 'Hello World';
   }
 
-  async login(){
+  async login() {
     await this.auth.facebookLogin();
     await this.navCtrl.setRoot(TabsPage);
   }

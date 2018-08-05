@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseProvider } from '../../providers/database/database';
-import { Platform } from 'ionic-angular';
+import { Platform, NavController } from 'ionic-angular';
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { Observable } from 'rxjs';
@@ -15,19 +15,28 @@ import { FileOpener } from '@ionic-native/file-opener';
 })
 export class PostMateriComponent implements OnInit {
 
-  text: string;
+  text = 'ap2';
   posts: Observable<any[]>;
 
-  constructor(private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener) {
+  constructor(private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener, public navCtrl: NavController) {
     console.log('Hello PostMateriComponent Component');
     this.text = 'Hello World';
   }
   ngOnInit() {
-    this.posts = this.db.getRecentPosts().snapshotChanges().pipe(
+
+    this.posts = this.db.getRecentPosts(this.text).snapshotChanges().pipe(
       map(arr => arr.map(doc => {
         return { id: doc.payload.doc.id, ...doc.payload.doc.data() }
       }))
     )
+
+    // this.shirts = this.shirtCollection.snapshotChanges().map(actions => {
+    //   return actions.map(a => {
+    //     const data = a.payload.doc.data() as Shirt;
+    //     const id = a.payload.doc.id;
+    //     return { id, ...data };
+    //   });
+    // });
   }
 
   trackByFn(index, post) {
@@ -75,7 +84,6 @@ export class PostMateriComponent implements OnInit {
     // });
 
     const fileTransfer: FileTransferObject = this.transfer.create();
-    alert(url);
     // const url = 'http://www.example.com/file.pdf';
     fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
       alert('download complete: ' + entry.toURL());
@@ -89,6 +97,23 @@ export class PostMateriComponent implements OnInit {
 
 
 
+  }
+
+  gotoSoal(id) {
+    this.navCtrl.push('DosenSoalPage', {
+      materiId: id
+    });
+  }
+  editMateri(id, content, materiUrl) {
+    this.navCtrl.push('DosenEditMateriPage', {
+      id: id,
+      content: content,
+      materiUrl: materiUrl
+    });
+  }
+
+  async hapusMateri(id){
+    await this.db.deletePost(id);
   }
 
 }

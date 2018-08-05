@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NavController } from 'ionic-angular';
-import { LoginPage } from '../../pages/login/login';
+import { LoginAwalPage } from '../../pages/login-awal/login-awal';
 
 /**
  * Generated class for the UserLogoutComponent component.
@@ -23,7 +23,7 @@ export class UserLogoutComponent {
   }
   async logout(){
     await this.auth.logout();
-    await this.navCtrl.setRoot(LoginPage);
+    await this.navCtrl.setRoot(LoginAwalPage);
   }
 
 }

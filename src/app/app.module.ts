@@ -4,7 +4,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { TabsPage } from '../pages/tabs/tabs';
-import { LoginPage } from '../pages/login/login';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,6 +18,7 @@ import { Firebase } from '@ionic-native/firebase';
 import { HttpClientModule } from '@angular/common/http';
 import { Facebook } from '@ionic-native/facebook';
 import { DatabaseProvider } from '../providers/database/database';
+
 const firebase = {
   apiKey: "AIzaSyCXcIUdgDOhNfZIg19ze5zcpB6PocCvmuQ",
   authDomain: "ionic-firestarter-ab837.firebaseapp.com",
@@ -27,16 +27,20 @@ const firebase = {
   storageBucket: "ionic-firestarter-ab837.appspot.com",
   messagingSenderId: "851406919101"
 }
+
 import { File } from '@ionic-native/file';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FileOpener } from '@ionic-native/file-opener';
+
+import { GooglePlus } from '@ionic-native/google-plus';
+import { LoginAwalPage } from '../pages/login-awal/login-awal';
 @NgModule({
   declarations: [
     MyApp,
     TabsPage,
-    LoginPage
+    LoginAwalPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,7 @@ import { FileOpener } from '@ionic-native/file-opener';
   entryComponents: [
     MyApp,
     TabsPage,
-    LoginPage
+    LoginAwalPage
   ],
   providers: [
     StatusBar,
@@ -66,7 +70,8 @@ import { FileOpener } from '@ionic-native/file-opener';
     FileChooser,
     FilePath,
     FileTransfer,
-    FileOpener
+    FileOpener,
+    GooglePlus
   ]
 })
 export class AppModule { }

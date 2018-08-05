@@ -7,6 +7,10 @@ import { UserLogoutComponent } from './user-logout/user-logout';
 import { PostMateriComponent } from './post-materi/post-materi';
 import { HeartButtonComponent } from './heart-button/heart-button';
 import { UserRelationshipComponent } from './user-relationship/user-relationship';
+import { GoogleLoginComponent } from './google-login/google-login';
+import { MhsMateriComponent } from './mhs-materi/mhs-materi';
+import { FbLoginMhsComponent } from './fb-login-mhs/fb-login-mhs';
+import { MhsGoogleLoginComponent } from './mhs-google-login/mhs-google-login';
 @NgModule({
 	declarations: [AnonymousLoginComponent,
     FacebookLoginComponent,
@@ -14,7 +18,11 @@ import { UserRelationshipComponent } from './user-relationship/user-relationship
     PostMateriComponent,
     HeartButtonComponent,
     HeartButtonComponent,
-    UserRelationshipComponent],
+    UserRelationshipComponent,
+    GoogleLoginComponent,
+    MhsMateriComponent,
+    FbLoginMhsComponent,
+    MhsGoogleLoginComponent],
 	imports: [CommonModule,
     IonicModule],
 	exports: [AnonymousLoginComponent,
@@ -23,6 +31,10 @@ import { UserRelationshipComponent } from './user-relationship/user-relationship
     PostMateriComponent,
     HeartButtonComponent,
     HeartButtonComponent,
-    UserRelationshipComponent]
+    UserRelationshipComponent,
+    GoogleLoginComponent,
+    MhsMateriComponent,
+    FbLoginMhsComponent,
+    MhsGoogleLoginComponent]
 })
 export class ComponentsModule {}

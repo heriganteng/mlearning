@@ -1,0 +1,30 @@
+<!--
+  Generated template for the DosenEditMateriPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Edit Materi</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ng-container *ngIf="auth.user | async as user">
+    <ion-input floating type="text" placeholder="Judul Materi" [(ngModel)]="content"></ion-input>
+    <ion-input floating type="text" placeholder="Materi URL" [(ngModel)]="materiUrl" disabled></ion-input>
+
+    <button ion-fab mini (click)="choose()">
+      <ion-icon name="attach"></ion-icon>
+    </button>
+    <hr>
+
+    <button ion-button full color="secondary" (tap)="update(user)">
+      Update
+    </button>
+  </ng-container>
+</ion-content>

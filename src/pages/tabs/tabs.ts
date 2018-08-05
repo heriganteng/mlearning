@@ -8,9 +8,19 @@ import { AuthProvider } from '../../providers/auth/auth';
 export class TabsPage {
 
   tab1Root = 'HomePage';
-  tab2Root = 'UsersPage';
   tab3Root = 'MatkulPage';
-  tab4Root = 'ProfilePage';
+  tab4Root = 'DosenProfilPage';
+
+  tab5Root = 'HomePage';
+  tab6Root = 'MhsDosenPage';
+  tab7Root = 'MhsMatkulPage';
+  tab8Root = 'ProfilePage';
+
+  tab9Root = 'HomePage';
+  tab10Root = 'AdminUsersPage';
+  tab11Root = 'AdminProfilePage';
+
+
   constructor(public auth: AuthProvider) {
 
   }

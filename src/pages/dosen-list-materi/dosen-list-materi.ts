@@ -25,5 +25,5 @@ export class DosenListMateriPage {
   postMateri() {
     this.navCtrl.push('DosenPostMateriPage');
   }
-
+  
 }

@@ -28,7 +28,8 @@ export class AnonymousLoginComponent {
       content: "Logging in anonymously..."
     })
     loader.present()
-    await this.auth.anonymousLogin();
+    
+    // await this.auth.anonymousLogin();
     loader.dismiss()
 
     await this.navCtrl.setRoot(TabsPage);

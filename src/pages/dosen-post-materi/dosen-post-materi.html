@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>dosen-post-materi</ion-title>
+    <ion-title>Tambah Materi</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,7 +17,7 @@
   <ng-container *ngIf="auth.user | async as user">
     <!-- <img [src]="post.img || 'http://via.placeholder.com/350px*150px'"> -->
     <ion-input floating type="text" placeholder="Post Materi" [(ngModel)]="post.content"></ion-input>
-    <ion-input floating type="text" placeholder="Materi URL" [(ngModel)]="post.materiUrl"></ion-input>
+    <ion-input floating type="text" placeholder="Materi URL" [(ngModel)]="post.materiUrl" disabled></ion-input>
 
     <button ion-fab mini (click)="choose()">
       <ion-icon name="attach"></ion-icon>

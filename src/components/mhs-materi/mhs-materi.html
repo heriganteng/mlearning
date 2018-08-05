@@ -1,0 +1,41 @@
+<ng-container *ngIf="(auth.user | async) || {} as user">
+  <ion-card *ngFor=" let post of posts | async; trackBy: trackByFn ">
+    <img src="https://dummyimage.com/200x100&text={{post.content}}">
+    <ion-card-content text-center>
+
+      <ion-row no-padding>
+        <ion-col>
+          <h1>{{ post.content }}</h1>
+        </ion-col>
+        <ion-col text-right>
+          <p>Rating : 5</p>
+        </ion-col>
+      </ion-row>
+      <ion-row no-padding>
+        <p>Abdul Haris., S.Kom., M.Kom</p>
+      </ion-row>
+      <hr>
+      <!-- <p>{{ post.materiUrl }}</p>
+      <hr> -->
+      <!-- <ion-row>
+        <button ion-button full (tap)="gotoSoal()">
+          <div>Download</div>
+        </button>
+      </ion-row> -->
+
+      <ion-row no-padding>
+        <ion-col>
+          <button ion-button full color="secondary" (tap)="download(post.materiUrl, post.content)">
+            Download
+          </button>
+        </ion-col>
+        <ion-col text-right>
+          <button ion-button full color="danger" (tap)="gotoSoal()">
+            Soal
+          </button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
+</ng-container>

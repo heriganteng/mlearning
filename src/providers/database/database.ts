@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import * as firebase from 'firebase/app';
 
@@ -13,7 +13,17 @@ export interface Post {
   likeCount: number;
   [key: string]: any;
 }
-
+export interface Soal {
+  userId: string;
+  materiId: string;
+  createdAt: Date;
+  soal: string;
+  jawabanA: string;
+  jawabanB: string;
+  jawabanC: string;
+  jawabanD: string;
+  jawabanBenar: string;
+}
 /*
   Generated class for the DatabaseProvider provider.
 
@@ -24,11 +34,13 @@ export interface Post {
 export class DatabaseProvider {
 
   private postsRef: AngularFirestoreCollection<Post>;
+  private soalsRef: AngularFirestoreCollection<Soal>;
 
 
   constructor(public http: HttpClient, private afs: AngularFirestore) {
     console.log('Hello DatabaseProvider Provider');
     this.postsRef = this.afs.collection('posts');
+    this.soalsRef = this.afs.collection('soals');
   }
 
   // getRecentPost(){
@@ -38,9 +50,9 @@ export class DatabaseProvider {
   // )
   // }
 
-  getRecentPosts() {
+  getRecentPosts(matkul) {
     return this.afs.collection<Post>('posts', ref =>
-      ref.orderBy('createdAt', 'desc').limit(10)
+      ref.orderBy('createdAt', 'desc').where('matkul', '==', matkul)
     );
   }
 
@@ -52,13 +64,65 @@ export class DatabaseProvider {
     )
   }
 
-  createPost(userId: string, data: Post) {
+  createPost(ref: string, data: Post) {
+    const createdAt = firebase.firestore.FieldValue.serverTimestamp();
+
+    const doc = { createdAt, ...data }
+
+    return this.postsRef.add(doc);
+
+  }
+  updatePost(id: string, data: Post) {
+    const updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+
+    // const doc = { updatedAt, ...data }
+
+    // return this.postsRef.doc(id).set(doc);
+    return this.afs.doc(`posts/${id}`).set({ updatedAt, ...data }, { merge: true });
+  }
+  deletePost(id: string) {
+    return this.afs.doc(`posts/${id}`).delete();
+  }
+
+  createSoal(userId: string, data: Soal) {
     const createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
     const doc = { userId, createdAt, ...data }
 
-    return this.postsRef.add(doc);
+    return this.soalsRef.add(doc);
 
+  }
+  getDaftarSoal(id: string) {
+    return this.afs.collection('soals', ref =>
+      ref.where('materiId', '==', id)
+    )
+  }
+
+  //// Dosen Daftar Nilai ////
+  getDaftarNilaiDosen() {
+    return this.afs.collection<any>('nilais', ref =>
+      ref.orderBy('createdAt', 'desc')
+    );
+  }
+  //// End Dosen Daftar Nilai ////
+
+  //// Mahasiswa ///
+
+  getDaftarDosen() {
+    return this.afs.collection<any>('users', ref =>
+      ref.where("level", "==", "dosen")
+    );
+  }
+  getDaftarMateriDosen(uid) {
+    return this.afs.collection<any>('posts', ref =>
+      ref.where("userId", "==", uid)
+    );
+  }
+
+  getDaftarNilaiMhs(uid) {
+    return this.afs.collection<any>('nilais', ref =>
+      ref.where("uid", "==", uid)
+    );
   }
 
   //// HEARTS ////
