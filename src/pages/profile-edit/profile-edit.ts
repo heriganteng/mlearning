@@ -29,7 +29,9 @@ export class ProfileEditPage {
     console.log(this.newName, user);
     const ref = this.afs.collection('users').doc(user.uid);
 
-    return ref.update({ displayName: this.newName })
+    ref.update({ displayName: this.newName })
+    alert('Berhasil mengganti nama.');
+    this.navCtrl.pop();
   }
 
 }

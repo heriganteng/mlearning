@@ -23,6 +23,7 @@ export class DosenPostMateriPage {
   post = <any>{};
   constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider, public auth: AuthProvider, public filePath: FilePath,
     public fileChooser: FileChooser, public file: File) {
+      this.post.matkul = navParams.get('matkul');
   }
 
   ionViewDidLoad() {
@@ -30,6 +31,8 @@ export class DosenPostMateriPage {
   }
 
   async create(user) {
+    this.post.nama = user.displayName;
+    this.post.userId = user.uid;
     await this.db.createPost(user.uid, this.post as Post)
     this.post = {}
     await this.navCtrl.setRoot('HomePage')
@@ -38,12 +41,10 @@ export class DosenPostMateriPage {
   choose() {
 
     this.fileChooser.open().then((uri) => {
-      alert(uri);
 
       this.filePath.resolveNativePath(uri)
         .then((filePath) => {
           this.file.resolveLocalFilesystemUrl(filePath).then((newUrl) => {
-            alert(JSON.stringify(newUrl));
 
             let dirPath = newUrl.nativeURL;
             let dirPathSegments = dirPath.split('/');
@@ -66,7 +67,6 @@ export class DosenPostMateriPage {
       alert('Success');
       storage.ref('files/' + name).getDownloadURL().then((url) => {
         this.post.materiUrl = url;
-        alert(JSON.stringify(this.post.materiUrl));
       }).catch((error) => {
         alert(JSON.stringify(error));
       });

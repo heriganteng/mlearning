@@ -47,7 +47,6 @@ export class DosenEditMateriPage {
   choose() {
 
     this.fileChooser.open().then((uri) => {
-      alert(uri);
 
       this.filePath.resolveNativePath(uri)
         .then((filePath) => {
@@ -75,7 +74,6 @@ export class DosenEditMateriPage {
       alert('Success');
       storage.ref('files/' + name).getDownloadURL().then((url) => {
         this.post.materiUrl = url;
-        alert(JSON.stringify(this.post.materiUrl));
       }).catch((error) => {
         alert(JSON.stringify(error));
       });

@@ -8,6 +8,7 @@ import * as firebase from "firebase/app";
 import { Observable, Subject } from 'rxjs';
 import { switchMap, take, first } from 'rxjs/operators';
 import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 import { Platform } from '../../../node_modules/ionic-angular';
 
 
@@ -30,7 +31,8 @@ export class AuthProvider {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private facebook: Facebook,
-    private platform: Platform
+    private platform: Platform,
+    private gplus: GooglePlus,
   ) {
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -41,6 +43,52 @@ export class AuthProvider {
         }
       })
     );
+  }
+
+  //// Google Login ////
+
+  async googleLogin() {
+    if (this.platform.is("cordova")) {
+      return await this.nativeGoogleLogin();
+    } else {
+      return await this.webGoogleLogin();
+    }
+  }
+
+  async nativeGoogleLogin(): Promise<any> {
+    try {
+
+      const gplusUser = await this.gplus.login({
+        'webClientId': '851406919101-5mldduilqhpst98qgtikqch1ubq5qttd.apps.googleusercontent.com',
+        'offline': true,
+        'scopes': 'profile email'
+      })
+
+
+
+      return await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
+
+      // const firebaseUserx = await firebase.auth().signInWithRedirect(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken));
+
+      // const firebaseUser = await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
+
+      // return await this.updateMhsData(firebaseUser);
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async webGoogleLogin(): Promise<void> {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const credential = await this.afAuth.auth.signInWithPopup(provider);
+      return await this.updateMhsData(credential.user);
+
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 
   //// FACEBOOK MAHASISWA ////
@@ -91,6 +139,43 @@ export class AuthProvider {
     }
   }
 
+  async facebookAdminLogin() {
+    if (this.platform.is("cordova")) {
+      return await this.nativeFacebookAdminLogin();
+    } else {
+      return await this.webFacebooAdminLogin();
+    }
+  }
+
+  async nativeFacebookAdminLogin() {
+    try {
+      const response = await this.facebook.login(["email", "public_profile"]);
+      const facebookCredential = firebase.auth.FacebookAuthProvider.credential(
+        response.authResponse.accessToken
+      );
+
+      const firebaseUser = await firebase
+        .auth()
+        .signInWithCredential(facebookCredential);
+
+      return await this.updateAdminData(firebaseUser);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async webFacebooAdminLogin() {
+    try {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      const credential = await this.afAuth.auth.signInWithPopup(provider);
+
+      return await this.updateAdminData(credential.user);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
   async nativeFacebookLogin(): Promise<void> {
     try {
       const response = await this.facebook.login(["email", "public_profile"]);
@@ -136,6 +221,23 @@ export class AuthProvider {
     return userRef.set(data, { merge: true });
   }
 
+  // Admin //
+  // Save custom user data in Firestore
+  private updateAdminData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
+
+    const data = {
+      uid: user.uid,
+      email: user.email || null,
+      level: 'admin',
+      displayName: user.displayName || new Chance().name({ prefix: true }),
+      photoURL: user.photoURL || "https://goo.gl/7kz9qG"
+    };
+    return userRef.set(data, { merge: true });
+  }
+
   // Mahasiswa //
   // Save custom user data in Firestore
   private updateMhsData(user: any) {
@@ -150,6 +252,7 @@ export class AuthProvider {
       displayName: user.displayName || new Chance().name({ prefix: true }),
       photoURL: user.photoURL || "https://goo.gl/7kz9qG"
     };
+
     return userRef.set(data, { merge: true });
   }
 

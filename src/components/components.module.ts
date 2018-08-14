@@ -11,6 +11,7 @@ import { GoogleLoginComponent } from './google-login/google-login';
 import { MhsMateriComponent } from './mhs-materi/mhs-materi';
 import { FbLoginMhsComponent } from './fb-login-mhs/fb-login-mhs';
 import { MhsGoogleLoginComponent } from './mhs-google-login/mhs-google-login';
+import { AdminFbLoginComponent } from './admin-fb-login/admin-fb-login';
 @NgModule({
 	declarations: [AnonymousLoginComponent,
     FacebookLoginComponent,
@@ -22,7 +23,8 @@ import { MhsGoogleLoginComponent } from './mhs-google-login/mhs-google-login';
     GoogleLoginComponent,
     MhsMateriComponent,
     FbLoginMhsComponent,
-    MhsGoogleLoginComponent],
+    MhsGoogleLoginComponent,
+    AdminFbLoginComponent],
 	imports: [CommonModule,
     IonicModule],
 	exports: [AnonymousLoginComponent,
@@ -35,6 +37,7 @@ import { MhsGoogleLoginComponent } from './mhs-google-login/mhs-google-login';
     GoogleLoginComponent,
     MhsMateriComponent,
     FbLoginMhsComponent,
-    MhsGoogleLoginComponent]
+    MhsGoogleLoginComponent,
+    AdminFbLoginComponent]
 })
 export class ComponentsModule {}

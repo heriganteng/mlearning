@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController } from 'ionic-angular';
+import { Platform, NavController, NavParams } from 'ionic-angular';
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { Observable } from 'rxjs';
@@ -20,12 +20,12 @@ import { DatabaseProvider } from '../../providers/database/database';
 })
 export class MhsMateriComponent {
 
-  text = 'ap1';
+  text: string;
   posts: Observable<any[]>;
 
-  constructor(private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener, public navCtrl: NavController) {
-    console.log('Hello PostMateriComponent Component');
-    this.text = 'Hello World';
+  constructor(private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener, public navCtrl: NavController, public navParams: NavParams) {
+    this.text = navParams.get('matkul');
+
   }
 
   ngOnInit() {
@@ -34,14 +34,6 @@ export class MhsMateriComponent {
         return { id: doc.payload.doc.id, ...doc.payload.doc.data() }
       }))
     )
-
-    // this.shirts = this.shirtCollection.snapshotChanges().map(actions => {
-    //   return actions.map(a => {
-    //     const data = a.payload.doc.data() as Shirt;
-    //     const id = a.payload.doc.id;
-    //     return { id, ...data };
-    //   });
-    // });
   }
 
   trackByFn(index, post) {
@@ -89,10 +81,8 @@ export class MhsMateriComponent {
     // });
 
     const fileTransfer: FileTransferObject = this.transfer.create();
-    alert(url);
     // const url = 'http://www.example.com/file.pdf';
     fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
-      alert('download complete: ' + entry.toURL());
       this.fileOpener.open(entry.toURL(), 'application/pdf')
         .then(() => console.log('File is opened'))
         .catch(e => console.log('Error opening file', e));
@@ -103,8 +93,12 @@ export class MhsMateriComponent {
 
   }
 
-  gotoSoal() {
-    this.navCtrl.push('MhsSoalPage');
+  gotoSoal(id: string, nama: string, judul: string) {
+    this.navCtrl.push('MhsSoalPage', {
+      id: id,
+      nama: nama,
+      judul: judul
+    });
   }
   // editMateri() {
   //   this.navCtrl.push('DosenEditMateriPage');

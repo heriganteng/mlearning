@@ -16,9 +16,10 @@
 <ion-content padding>
   <ion-list>
     <ion-item ion-item *ngFor="let item of nilai | async">
-      <h2>{{ item.materi }}</h2>
-      <p>{{item.dosen }} • {{ item.nilai}}</p>
-      <button ion-button clear item-end>View</button>
+      <!-- <h2>{{item.id}}</h2> -->
+      <h2>{{ item.judul }}</h2>
+      <p>{{item.nama }} • {{ item.score}}</p>
+      <button ion-button clear item-end (tap)="openDetailPage(item.id)">View</button>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -18,13 +18,13 @@ export class LoginAwalPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginAwalPage');
-  }
   bukaTokenDosen() {
-    this.navCtrl.push('DosenLoginPage');
+    this.navCtrl.push('DosenTokenPage');
   }
   bukaTokenMhs() {
-    this.navCtrl.push('MhsLoginPage');
+    this.navCtrl.push('MhsTokenPage');
+  }
+  gotoTokenAdmin(){
+    this.navCtrl.push('AdminTokenLoginPage');
   }
 }

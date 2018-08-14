@@ -16,9 +16,9 @@
 <ion-content class="list-avatar-page">
   <ion-list>
 
-    <ion-item *ngFor=" let item of dosen | async" (tap)="openMateri(item.id)">
+    <ion-item *ngFor="let item of dosen | async" (tap)="openMateri(item.id)">
       <ion-avatar item-start>
-        <img [src]="item.photoUrl">
+        <img [src]="item.photoURL">
       </ion-avatar>
       <h2>{{item.displayName}}</h2>
       <!-- <p>This town ain't big enough for the two of us!</p> -->

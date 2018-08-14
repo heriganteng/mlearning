@@ -7,10 +7,12 @@ import * as firebase from 'firebase/app';
 
 export interface Post {
   userId: string;
+  nama: string;
   createdAt: Date;
   materiUrl: string;
   content: string;
   likeCount: number;
+  matkul: string;
   [key: string]: any;
 }
 export interface Soal {
@@ -35,12 +37,14 @@ export class DatabaseProvider {
 
   private postsRef: AngularFirestoreCollection<Post>;
   private soalsRef: AngularFirestoreCollection<Soal>;
+  private nilaisRef: AngularFirestoreCollection<any>;
 
 
   constructor(public http: HttpClient, private afs: AngularFirestore) {
     console.log('Hello DatabaseProvider Provider');
     this.postsRef = this.afs.collection('posts');
     this.soalsRef = this.afs.collection('soals');
+    this.nilaisRef = this.afs.collection('nilais');
   }
 
   // getRecentPost(){
@@ -50,9 +54,14 @@ export class DatabaseProvider {
   // )
   // }
 
-  getRecentPosts(matkul) {
+  getRecentPosts(matkul: string) {
     return this.afs.collection<Post>('posts', ref =>
-      ref.orderBy('createdAt', 'desc').where('matkul', '==', matkul)
+      ref.where("matkul", "==", matkul)
+    );
+  }
+  getRecentPostsDosen(matkul: string, userId: string) {
+    return this.afs.collection<Post>('posts', ref =>
+      ref.where("matkul", "==", matkul).where("userId", "==", userId)
     );
   }
 
@@ -72,6 +81,14 @@ export class DatabaseProvider {
     return this.postsRef.add(doc);
 
   }
+
+  getDetailNilai(id: string) {
+    return this.afs.collection('nilais').doc(id);
+  }
+
+  createNilai(data: any) {
+    return this.nilaisRef.add(data);
+  }
   updatePost(id: string, data: Post) {
     const updatedAt = firebase.firestore.FieldValue.serverTimestamp();
 
@@ -82,6 +99,10 @@ export class DatabaseProvider {
   }
   deletePost(id: string) {
     return this.afs.doc(`posts/${id}`).delete();
+  }
+
+  deleteUsers(id: string) {
+    return this.afs.doc(`users/${id}`).delete();
   }
 
   createSoal(userId: string, data: Soal) {
@@ -97,6 +118,11 @@ export class DatabaseProvider {
       ref.where('materiId', '==', id)
     )
   }
+  getJumlahSoal(materiId: string) {
+    return this.afs.collection('soals', ref =>
+      ref.where('materiId', '==', materiId)
+    )
+  }
 
   //// Dosen Daftar Nilai ////
   getDaftarNilaiDosen() {
@@ -105,6 +131,14 @@ export class DatabaseProvider {
     );
   }
   //// End Dosen Daftar Nilai ////
+
+  // Admin
+  getDaftarUser() {
+    return this.afs.collection<any>('users');
+  }
+  getDaftarToken() {
+    return this.afs.collection<any>('token');
+  }
 
   //// Mahasiswa ///
 

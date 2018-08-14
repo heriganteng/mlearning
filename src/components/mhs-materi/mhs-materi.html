@@ -7,21 +7,15 @@
         <ion-col>
           <h1>{{ post.content }}</h1>
         </ion-col>
+
         <ion-col text-right>
-          <p>Rating : 5</p>
+          <p>Rating : {{post.rating || 5}}</p>
         </ion-col>
       </ion-row>
       <ion-row no-padding>
-        <p>Abdul Haris., S.Kom., M.Kom</p>
+        <p>{{post.nama || "Unknown"}}</p>
       </ion-row>
       <hr>
-      <!-- <p>{{ post.materiUrl }}</p>
-      <hr> -->
-      <!-- <ion-row>
-        <button ion-button full (tap)="gotoSoal()">
-          <div>Download</div>
-        </button>
-      </ion-row> -->
 
       <ion-row no-padding>
         <ion-col>
@@ -30,7 +24,7 @@
           </button>
         </ion-col>
         <ion-col text-right>
-          <button ion-button full color="danger" (tap)="gotoSoal()">
+          <button ion-button full color="danger" (tap)="gotoSoal(post.id, post.nama, post.content)">
             Soal
           </button>
         </ion-col>

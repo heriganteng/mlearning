@@ -16,8 +16,8 @@
 <ion-content padding>
   <button ion-button full (tap)="tambahSoal()">Tambah Soal</button>
   <ion-list>
-    <button ion-item *ngFor="let item of soal | async" (click)="itemSelected()">
-      {{ item.soal }}
+    <button ion-item *ngFor="let item of soal | async;let i = index;" (click)="itemSelected()">
+      {{i + 1 }} . {{ item.soal }}
     </button>
   </ion-list>
 </ion-content>

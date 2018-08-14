@@ -14,6 +14,7 @@
 
 
 <ion-content padding>
+    <ng-container *ngIf="auth.user | async as user">
   <ion-card text-center>
 
     <!-- <ion-item>
@@ -32,7 +33,7 @@
 
     <ion-row>
       <ion-col>
-        <button ion-button full large (click)="listMateri()">
+        <button ion-button full large (click)="listMateriAp1(user.uid)">
           <div>Materi</div>
         </button>
       </ion-col>
@@ -57,11 +58,12 @@
 
     <ion-row>
       <ion-col>
-        <button ion-button full large>
+        <button ion-button full large (click)="listMateriAp2(user.uid)">
           <div>Materi</div>
         </button>
       </ion-col>
     </ion-row>
 
   </ion-card>
+  </ng-container>
 </ion-content>

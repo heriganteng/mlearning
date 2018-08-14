@@ -19,13 +19,19 @@
       <h1>Hasil</h1>
     </ion-card-header>
     <ion-card-content>
-      <br><br><br>
-      <h1>Benar : 7/10</h1>
+      <br>
+      <br>
+      <br>
+      <h1>Benar : {{ benar }}/{{ jumlah }}</h1>
       <hr>
-      <h1>Nilai : 70</h1>
+      <h1>Nilai : {{ hasil }}</h1>
       <hr>
-      <br><br><br>
-      <button ion-button full large round>OK</button>
+      <br>
+      <br>
+      <br>
+      <button ion-button full large round (tap)="ok()">OK</button>
+      <br>
+      <button ion-button full large round (tap)="rate()">Rate</button>
     </ion-card-content>
   </ion-card>
 </ion-content>

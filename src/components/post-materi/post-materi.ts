@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseProvider } from '../../providers/database/database';
-import { Platform, NavController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { Observable } from 'rxjs';
@@ -15,16 +15,16 @@ import { FileOpener } from '@ionic-native/file-opener';
 })
 export class PostMateriComponent implements OnInit {
 
-  text = 'ap2';
+  text: string;
+  uid: string;
   posts: Observable<any[]>;
-
-  constructor(private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener, public navCtrl: NavController) {
+  constructor(private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+    this.uid = navParams.get('userId');
     console.log('Hello PostMateriComponent Component');
-    this.text = 'Hello World';
+    this.text = navParams.get('matkul');
   }
   ngOnInit() {
-
-    this.posts = this.db.getRecentPosts(this.text).snapshotChanges().pipe(
+    this.posts = this.db.getRecentPostsDosen(this.text, this.uid).snapshotChanges().pipe(
       map(arr => arr.map(doc => {
         return { id: doc.payload.doc.id, ...doc.payload.doc.data() }
       }))
@@ -86,7 +86,6 @@ export class PostMateriComponent implements OnInit {
     const fileTransfer: FileTransferObject = this.transfer.create();
     // const url = 'http://www.example.com/file.pdf';
     fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
-      alert('download complete: ' + entry.toURL());
       this.fileOpener.open(entry.toURL(), 'application/pdf')
         .then(() => console.log('File is opened'))
         .catch(e => console.log('Error opening file', e));
@@ -112,8 +111,30 @@ export class PostMateriComponent implements OnInit {
     });
   }
 
-  async hapusMateri(id){
-    await this.db.deletePost(id);
+  // async hapusMateri(id) {
+  //   await this.db.deletePost(id);
+  // }
+
+  hapusMateri(id) {
+    const confirm = this.alertCtrl.create({
+      title: 'Hapus materi?',
+      message: 'Apakah anda yakin akan menghapus materi?',
+      buttons: [
+        {
+          text: 'Batal',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Hapus',
+          handler: () => {
+            this.db.deletePost(id);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

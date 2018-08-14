@@ -14,8 +14,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'dosen-list-materi.html',
 })
 export class DosenListMateriPage {
-
+  matkul: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.matkul = navParams.get('matkul');
   }
 
   ionViewDidLoad() {
@@ -23,7 +24,9 @@ export class DosenListMateriPage {
   }
 
   postMateri() {
-    this.navCtrl.push('DosenPostMateriPage');
+    this.navCtrl.push('DosenPostMateriPage', {
+      matkul: this.matkul
+    });
   }
-  
+
 }

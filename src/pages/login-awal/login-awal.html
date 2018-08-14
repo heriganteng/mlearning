@@ -14,11 +14,19 @@
 
 
 <ion-content padding text-center>
-<h2>Apakah anda Mahasiswa atau Dosen?</h2>
-<br><br>
-<button ion-button full color="primary" large round (tap)="bukaTokenMhs()">Mahasiswa</button>
-<br>
-<hr>
-<br>
-<button ion-button full color="secondary" large round (tap)="bukaTokenDosen()">Dosen</button>
+  <h2>Apakah anda Mahasiswa atau Dosen?</h2>
+  <br>
+  <br>
+  <button ion-button full color="primary" large round (tap)="bukaTokenMhs()">Mahasiswa</button>
+  <br>
+  <hr>
+  <br>
+  <button ion-button full color="secondary" large round (tap)="bukaTokenDosen()">Dosen</button>
 </ion-content>
+<ion-footer text-center>
+  <ion-toolbar>
+    <p>Admin login
+      <a (tap)="gotoTokenAdmin()">disini</a>
+    </p>
+  </ion-toolbar>
+</ion-footer>

@@ -21,9 +21,9 @@ export class UserLogoutComponent {
     console.log('Hello UserLogoutComponent Component');
     this.text = 'Hello World';
   }
-  async logout(){
+  async logout() {
+    this.navCtrl.setRoot(LoginAwalPage);
     await this.auth.logout();
-    await this.navCtrl.setRoot(LoginAwalPage);
   }
 
 }

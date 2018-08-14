@@ -25,11 +25,8 @@ export class DosenPostSoalPage {
     console.log('ionViewDidLoad DosenPostSoalPage');
   }
   async create(user) {
-    alert(JSON.stringify(this.soal));
     await this.db.createSoal(user.uid, this.soal as Soal)
     this.soal = {}
-    await this.navCtrl.setRoot('DosenSoalPage');
+    this.navCtrl.pop();
   }
-
-
 }

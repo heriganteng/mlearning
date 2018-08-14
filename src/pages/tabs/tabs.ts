@@ -19,6 +19,7 @@ export class TabsPage {
   tab9Root = 'HomePage';
   tab10Root = 'AdminUsersPage';
   tab11Root = 'AdminProfilePage';
+  tab13Root = 'AdminTokenPage';
 
 
   constructor(public auth: AuthProvider) {

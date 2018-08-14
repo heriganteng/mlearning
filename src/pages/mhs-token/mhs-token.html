@@ -7,12 +7,20 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>mhs-token-page</ion-title>
+    <ion-title>Masukkan Token</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list *ngFor="let item of token | async">
+    <ion-item>
+      <ion-label stacked>Token</ion-label>
+      <ion-input [(ngModel)]="tokenMahasiswa" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button full rounded (click)="loginMhs(item.mahasiswa)">Submit</button>
+    </ion-item>
+  </ion-list>
 </ion-content>

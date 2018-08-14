@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the MatkulPage page.
@@ -15,15 +16,24 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MatkulPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MatkulPage');
   }
 
-  listMateri(){
-    this.navCtrl.push('DosenListMateriPage');
+  listMateriAp1(userId: string){
+    this.navCtrl.push('DosenListMateriPage', {
+      matkul: 'ap1',
+      userId: userId
+    });
+  }
+  listMateriAp2(userId: string){
+    this.navCtrl.push('DosenListMateriPage', {
+      matkul: 'ap2',
+      userId: userId
+    });
   }
 
 }

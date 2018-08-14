@@ -26,7 +26,6 @@ export class MhsDosenPage {
     )
   }
   openMateri(userId) {
-    alert(userId);
     this.navCtrl.push('MhsListMateriDosenPage', {
       userId: userId
     });

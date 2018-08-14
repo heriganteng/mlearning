@@ -26,7 +26,6 @@ export class MhsListMateriDosenPage {
   id: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: DatabaseProvider, public auth: AuthProvider, private file: File, private transfer: FileTransfer, private platform: Platform, private fileOpener: FileOpener) {
     this.id = navParams.get('userId');
-    alert(this.id);
     this.materi = this.db.getDaftarMateriDosen(this.id).snapshotChanges().pipe(
       map(arr => arr.map(doc => {
         return { id: doc.payload.doc.id, ...doc.payload.doc.data() }
@@ -86,7 +85,6 @@ export class MhsListMateriDosenPage {
     alert(url);
     // const url = 'http://www.example.com/file.pdf';
     fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
-      alert('download complete: ' + entry.toURL());
       this.fileOpener.open(entry.toURL(), 'application/pdf')
         .then(() => console.log('File is opened'))
         .catch(e => console.log('Error opening file', e));

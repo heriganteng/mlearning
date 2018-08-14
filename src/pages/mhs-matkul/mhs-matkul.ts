@@ -18,11 +18,14 @@ export class MhsMatkulPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MhsMatkulPage');
+  listMateriAp1() {
+    this.navCtrl.push('MhsListMateriPage', {
+      matkul: 'ap1'
+    });
   }
-  listMateri() {
-    this.navCtrl.push('MhsListMateriPage');
+  listMateriAp2() {
+    this.navCtrl.push('MhsListMateriPage', {
+      matkul: 'ap2'
+    });
   }
-
 }

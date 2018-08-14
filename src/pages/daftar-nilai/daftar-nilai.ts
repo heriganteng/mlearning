@@ -26,7 +26,6 @@ export class DaftarNilaiPage {
   nilai: Observable<any[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider) {
     this.id = navParams.get('userId');
-    alert(this.id);
     this.nilai = this.db.getDaftarNilaiMhs(this.id).snapshotChanges().pipe(
       map(arr => arr.map(doc => {
         return { id: doc.payload.doc.id, ...doc.payload.doc.data() }
@@ -39,6 +38,13 @@ export class DaftarNilaiPage {
   }
   itemSelected() {
     console.log("Selected Item");
+  }
+
+  openDetailPage(id) {
+    this.navCtrl.push('DetailNilaiPage', {
+      id: id
+    });
+
   }
 
 }
