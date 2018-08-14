@@ -22,7 +22,7 @@ export class DetailNilaiPage {
   nilai: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider, public afs: AngularFirestore) {
     this.id = navParams.get('id');
-    alert(this.id);
+    // alert(this.id);
     // var docRef = this.afs.collection("cities").doc("SF");
 
     // docRef.get().then(function (doc) {

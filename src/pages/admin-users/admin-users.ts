@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import { map } from 'rxjs/operators';
 })
 export class AdminUsersPage implements OnInit {
   users: Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private db: DatabaseProvider, public auth: AuthProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private db: DatabaseProvider, public auth: AuthProvider, public alertCtrl: AlertController) {
   }
   ngOnInit() {
     this.users = this.db.getDaftarUser().snapshotChanges().pipe(
@@ -31,8 +31,30 @@ export class AdminUsersPage implements OnInit {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdminUsersPage');
   }
-  async hapus(id) {
-    await this.db.deleteUsers(id);
+  // async hapus(id) {
+  //   await this.db.deleteUsers(id);
+  // }
+
+  hapus(id) {
+    const confirm = this.alertCtrl.create({
+      title: 'Hapus User?',
+      message: 'Apakah anda yakin akan menghapus user?',
+      buttons: [
+        {
+          text: 'Batal',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Hapus',
+          handler: () => {
+            this.db.deleteUsers(id);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }
